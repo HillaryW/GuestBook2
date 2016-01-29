@@ -9,7 +9,9 @@
 </body>
 
   <template name = "guestBook">
+    <div class= "col-xs-3">
         <form>
+            
             
     
         <div class = "form-group">
@@ -26,6 +28,7 @@
         
         <button type ="submit" class = "btn btn-primary">Post Message </button>
     </form>
+    </div>
     {{#each messages}}
       <p>{{name}} {{message}}</p>
     {{/each}}
