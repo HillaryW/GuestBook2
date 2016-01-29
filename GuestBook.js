@@ -8,10 +8,8 @@ if (Meteor.isClient) {
   Template.guestBook.helpers( {
     "messages": function () {
       return Messages.find(
-          {},
-          {sort: {createdOn: -1}} ) || {};
-    }
-    });
+          {}, {sort: {createdOn: -1}} ) || {};
+    } });
   
   Template.guestBook.events(
     {
@@ -27,20 +25,23 @@ if (Meteor.isClient) {
                 $(event.target).find('input[name=guestName]');
             var nameText = nameBox.val();
             
-            
-            
-            Messages.insert(
-              {
-                name: nameText,
-                message: messageText,
-                createdOn: Date.now()  
+            if (nameText.length > 0 && messageText.length > 0) {
+              Messages.insert( {
+                name: nameText, message: messageText, createdOn: Date.now()
               });
+              
+              
+              nameBox.val(""); messageBox.val("");
+            } else {
+              //alert("Name and Message are both required");
+              console.output(messageBox);
+              messageBox.classlist.add("has-warning"); }
+            
+            
+
+
     
-        nameBox.val("");
-        messageBox.val("");
-    
-    }
-    } );
+    } } );
 
   }
 
