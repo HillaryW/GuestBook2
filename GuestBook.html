@@ -1,15 +1,18 @@
-<head>
-    <title>Welcome to Hillary's Guestbook!!</title>
-</head>
+<template name = 'layout'>
+    <head>
+        <title>Welcome to Hillary's Guestbook!!</title>
+    </head>
 
-<body>
-    <h1>Welcome to Hillary's Guestbook!</h1>
 
-    {{> guestBook}}
-</body>
+    <body>
+        <h1>Welcome to Hillary's Guestbook!</h1>
+
+        {{> yeild}}
+    </body>
+</template>
 
   <template name = "guestBook">
-    <div >
+    <div class = 'col-xs-3'>
         <form>
     
         <div class = "form-group">
@@ -23,14 +26,26 @@
                   cols = "30" rows ="3"></textarea>
         </div>
         
-        
+        <p>
         <button type ="submit" class = "btn btn-primary">Post Message </button>
-    </form>
+        </p>
+        
+        </form>
     </div>
     
     <div>
     {{#each messages}}
-      <p>{{name}} {{message}}</p>
+      <p><a href="{{pathFor route = 'message.show'}}">
+        <strong>{{ name }}</strong>: {{ message }} - {{ createdOn }}</a></p>
     {{/each}}
     </div>
-</template> 
+</template>
+  
+  <template name="about">
+<p>This is an app created in IT328 over winter study with Meteor.
+</p>
+</template>
+  
+ <template name= "message">
+ <p>{{name}}: {{message}}</p>
+</template>
