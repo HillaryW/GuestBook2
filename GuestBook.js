@@ -2,7 +2,7 @@ Messages = new Mongo.Collection("messages");
 
 Router.route('/', function () 
 {
-	this.render('guestBook'); // render guestbook template
+    this.render('guestBook'); // render guestbook template
 	this.layout('layout'); // set main layout template
 });
 
@@ -16,7 +16,7 @@ Router.route('/about', function ()
 Router.route('/messages/:_id', function()
 // to get :_id, go to Console and type Messages.find({}).fetch()
 {
-	this.render('messages', 
+	this.render('message', 
 	{
 		data: function () 
 		{
@@ -51,17 +51,16 @@ if (Meteor.isClient) {
                 $(event.target).find('textarea[name=guestBookMessage]');
             var messageText = messageBox.val();
                 
-            var nameBox =
-                $(event.target).find('input[name=guestName]');
-            var nameText = nameBox.val();
             
-            if (nameText.length > 0 && messageText.length > 0) {
+            var nameText = Meteor.user().username;
+            
+            if (messageText.length > 0) {
               Messages.insert( {
                 name: nameText, message: messageText, createdOn: Date.now()
               });
               
               
-              nameBox.val(""); messageBox.val("");
+              messageBox.val("");
             } else {
               //alert("Name and Message are both required");
               console.output(messageBox);
@@ -72,11 +71,20 @@ if (Meteor.isClient) {
 
     
     } } );
+  
+   Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+    });
 
   }
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+  });
+  
+  
+  Meteor.publish("messages", function () {
+        return Messages.find();
   });
 }
